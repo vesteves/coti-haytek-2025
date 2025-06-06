@@ -1,4 +1,3 @@
-// ignore all the node modules for all the folders
 **/node_modules/
 **/dist/
 **/.env
