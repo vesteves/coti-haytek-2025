@@ -75,6 +75,7 @@
 // };
 
 // console.log(newAluno);
+/*
 const useMath = () => {
   const somar = (a, b) => {
     return a + b;
@@ -109,3 +110,34 @@ const payload = {
 const { id, nome } = payload;
 
 console.log(`O id do meu usuario é o ${id} e o nome do usuário é ${nome}`);
+*/
+
+/*
+const variavel1 = []
+
+console.log(variavel1)
+*/
+
+let users = [
+  {
+    id: 1,
+    name: 'Vitor',
+  },
+  {
+    id: 2,
+    name: 'Leo',
+  },
+  {
+    id: 3,
+    name: 'Rafa',
+  },
+];
+
+console.log(users.map(user => {
+  return {
+    id: user.id,
+    name: user.name.toUpperCase()
+  }
+}))
+
+console.log(users)

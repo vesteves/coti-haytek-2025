@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+app.use(express.json())
+
 // RESTUFUL API
 
 // FAZENDO REQUISICAO >>>>> RECEBENDO REQUISICAO
@@ -29,19 +31,21 @@ const app = express();
 let users = [
   {
     id: 1,
-    name: 'Vitor',
+    email: 'vitor@teste.com',
+    password: '123321'
   },
 ];
 
 app.get('/user', (req, res) => {
   res.json({
-    message: 'Pegar informaçã',
-    data: users,
+    message: 'Trazer todos os usuários da minha base',
+    data: req.query.q ? users.filter(
+      user => user.name.toLocaleLowerCase().includes(req.query.q.toLocaleLowerCase())
+    ) : users,
   });
 });
 
 app.get('/user/:id', (req, res) => {
-  console.log(req.params.id);
 
   res.json({
     message: 'Pegar informação',
@@ -50,18 +54,36 @@ app.get('/user/:id', (req, res) => {
 });
 
 app.post('/user', (req, res) => {
+  users.push(req.body)
+  
   res.json({
-    message: 'Entregar informação',
+    message: 'Usuario salvo',
   });
 });
 
 app.put('/user/:id', (req, res) => {
+  // TODO preciso identificar qual é o registro que quero atualizar
+  console.log(req.params.id)
+  // TODO preciso alterar os campos daquele registro
+  users = users.map(user => {
+    if (Number(req.params.id) === user.id) {
+      return {
+        ...user,
+        ...req.body
+      }
+    }
+    return user
+  })
+  // TODO todos os outros registros permanecerão intactos
+
+
   res.json({
-    message: 'Atualizar informação',
+    message: 'Usuario atualizado',
   });
 });
 
 app.delete('/user/:id', (req, res) => {
+  users = users.filter(user => user.id !== parseInt(req.params.id, 10))
   res.json({
     message: 'Remover informação',
   });
