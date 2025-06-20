@@ -1,22 +1,21 @@
 import { Router } from 'express'
 import type { Request, Response } from 'express'
-import type { User } from './user.d'
+import userRepository from './user.repository'
 export const router = Router()
 
-const users:User[] = []
-
-router.get('/user', (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
+  const data = userRepository.getAll()
+  
   res.json({
-    data: users
+    data
   })
 })
 
-router.post('/user', (req: Request, res: Response) => {
-  const body = req.body as User
-  users.push(body)
+router.post('/', (req: Request, res: Response) => {
+  const data = userRepository.store(req.body)
 
   res.json({
-    data: 'Usuário cadastrado'
+    data: data ? 'Usuário cadastrado' : 'Erro ao cadastrar usuário'
   })
 })
 
