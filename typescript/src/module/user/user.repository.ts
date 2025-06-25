@@ -1,24 +1,22 @@
 import type { User, UserStore } from "./user.d";
+import { userModel } from './user.model'
 
-export const users:User[] = []
-
-const getAll = () => {
-  return users
+const getAll = (): Promise<User[]> => {
+  // select * from users
+  return userModel.find()
 }
 
-const store = (param: UserStore) => {
-  users.push({
-    name: param.name,
-    email: param.email,
-    password: param.password,
-    id: users.length + 1,
-    createdAt: new Date().toDateString(),
-    updatedAt: new Date().toDateString()
-  })
+const getById = (_id: string): Promise<User | null> => {
+  return userModel.findById(_id)
+}
+
+const store = (param: UserStore): boolean => {
+  userModel.create(param)
   return true
 }
 
 export default {
   getAll,
-  store
+  getById,
+  store,
 }

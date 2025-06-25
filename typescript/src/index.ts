@@ -12,16 +12,14 @@ app.get('/health', (req: Request, res: Response) => {
   })
 })
 
-app.listen(8000, async () => {
-  await mongoose.connect('mongodb://root:example@localhost:27017/teste?authSource=admin');
-  const userSchema = new mongoose.Schema({
-    name: String,
-    password: String,
-    email: String
-  })
-  const users = mongoose.model('users', userSchema);
-
-  console.log(await users.find())
-
+app.listen(8000, () => {
+  // 'mongodb://root:example@localhost:27017/typescryptdb'
+  // mongodb:// - Protocolo
+  // root - usuario
+  // example - senha
+  // localhost - dominio
+  // 27017 - porta
+  // typescryptdb - nome do banco
+  mongoose.connect('mongodb://root:example@localhost:27017/typescryptdb?authSource=admin')
   console.log('Typescript ON')
 })

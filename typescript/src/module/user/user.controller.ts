@@ -3,8 +3,16 @@ import type { Request, Response } from 'express'
 import userRepository from './user.repository'
 export const router = Router()
 
-router.get('/', (req: Request, res: Response) => {
-  const data = userRepository.getAll()
+router.get('/', async (req: Request, res: Response) => {
+  const data = await userRepository.getAll()
+  
+  res.json({
+    data
+  })
+})
+
+router.get('/:id', async (req: Request, res: Response) => {
+  const data = await userRepository.getById(req.params.id)
   
   res.json({
     data
