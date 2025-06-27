@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import type { User, UserStore, UserUpdate } from "./user.d";
 import { userModel } from './user.model'
 
@@ -19,6 +20,8 @@ const getById = (_id: string): Promise<User | null | string> => {
 }
 
 const store = async (param: UserStore): Promise<User | string> => {
+  param.password = bcrypt.hashSync(param.password, 10)
+
   try {
     return await userModel.create(param)
   } catch (error: any) {

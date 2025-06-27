@@ -24,5 +24,5 @@ app.listen(8000, () => {
   // 27017 - porta
   // typescryptdb - nome do banco
   mongoose.connect(process.env.DB_STRING as string || '')
-  console.log('Typescript ON')
+  console.log('Haytek ON')
 })
