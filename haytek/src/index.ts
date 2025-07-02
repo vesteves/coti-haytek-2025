@@ -4,10 +4,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import userController from './module/user/user.controller'
+import authController from './module/auth/auth.controller'
 const app = express()
 
 app.use(express.json())
 app.use('/user', userController)
+app.use('/auth', authController)
 
 app.get('/health', (req: Request, res: Response) => {
   res.json({

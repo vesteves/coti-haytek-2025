@@ -1,9 +1,41 @@
 import { Router } from 'express'
 import type { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
 import userRepository from './user.repository'
 export const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
+  // TODO só pode chegar requisição do usuário autenticado
+  if (!req.headers.authorization) {
+    res.json({
+      error: 'Sem autorização'
+    })
+    return
+  }
+  try {
+    const _id = jwt.verify(req.headers.authorization, process.env.JWT_SECRET || 'secret')
+    const user = await userRepository.getById(_id as string)
+
+    if (!user) {
+        res.status(404).json({
+            error: "Usuário não encontrado"
+        })
+        return
+    }
+
+    if (typeof user === 'string') {
+        res.status(500).json({
+            error: user
+        })
+        return
+    }
+  } catch (error:any) {
+    res.json({
+      error: error.message
+    })
+    return
+  }
+  
   const response = await userRepository.getAll()
   
   if (typeof response === 'object'){
@@ -19,6 +51,36 @@ router.get('/', async (req: Request, res: Response) => {
 })
 
 router.get('/:id', async (req: Request, res: Response) => {
+  // TODO só pode chegar requisição do usuário autenticado
+  if (!req.headers.authorization) {
+    res.json({
+      error: 'Sem autorização'
+    })
+    return
+  }
+  try {
+    const _id = jwt.verify(req.headers.authorization, process.env.JWT_SECRET || 'secret')
+    const user = await userRepository.getById(_id as string)
+
+    if (!user) {
+        res.status(404).json({
+            error: "Usuário não encontrado"
+        })
+        return
+    }
+
+    if (typeof user === 'string') {
+        res.status(500).json({
+            error: user
+        })
+        return
+    }
+  } catch (error:any) {
+    res.json({
+      error: error.message
+    })
+    return
+  }
   const response = await userRepository.getById(req.params.id)
 
   if (typeof response === 'object'){

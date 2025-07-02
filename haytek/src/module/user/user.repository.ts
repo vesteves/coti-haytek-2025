@@ -4,7 +4,7 @@ import { userModel } from './user.model'
 
 const getAll = (): Promise<User[] | string> => {
   try {
-    return userModel.find()
+    return userModel.find().lean()
   } catch (error: any) {
     return error.message
   }
@@ -13,7 +13,15 @@ const getAll = (): Promise<User[] | string> => {
 
 const getById = (_id: string): Promise<User | null | string> => {
   try {
-    return userModel.findById(_id)
+    return userModel.findById(_id).lean()
+  } catch (error:any) {
+    return error.message
+  }
+}
+
+const getByEmail = (email: string): Promise<User | null | string> => {
+  try {
+    return userModel.findOne({ email }).lean()
   } catch (error:any) {
     return error.message
   }
@@ -51,6 +59,7 @@ const destroy = async (_id: string): Promise<any | string> => {
 
 export default {
   getAll,
+  getByEmail,
   getById,
   store,
   update,
