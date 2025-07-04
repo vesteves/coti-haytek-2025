@@ -8,13 +8,13 @@ const getAll = (): Promise<User[] | string> => {
   } catch (error: any) {
     return error.message
   }
-  
+
 }
 
 const getById = (_id: string): Promise<User | null | string> => {
   try {
     return userModel.findById(_id).lean()
-  } catch (error:any) {
+  } catch (error: any) {
     return error.message
   }
 }
@@ -22,7 +22,7 @@ const getById = (_id: string): Promise<User | null | string> => {
 const getByEmail = (email: string): Promise<User | null | string> => {
   try {
     return userModel.findOne({ email }).lean()
-  } catch (error:any) {
+  } catch (error: any) {
     return error.message
   }
 }
@@ -44,7 +44,7 @@ const update = async (_id: string, param: UserUpdate): Promise<any | string> => 
     }, {
       $set: param
     })
-  } catch (error:any) {
+  } catch (error: any) {
     return error.message
   }
 }
