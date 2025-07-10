@@ -1,14 +1,12 @@
+import { z } from 'zod'
 import { DBBase } from '../../types/base.d'
+import { userStoreSchema, userUpdateSchema } from './user.schema'
 
-export interface UserBase {
-  name: string
-  email: string
-  password: string
-}
+export type UserBase = z.infer<typeof userStoreSchema>
 
 export type UserStore = UserBase
 
-export type UserUpdate = Patial<UserBase>
+export type UserUpdate = z.infer<typeof userUpdateSchema>
 
-// id - inteiro, name - texto, email - texto, password - texto
+// id - objectId, name - texto, email - texto, password - texto
 export type User = UserBase & DBBase

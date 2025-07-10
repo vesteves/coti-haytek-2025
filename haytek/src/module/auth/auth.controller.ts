@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import userRepository from '../user/user.repository'
 import authMiddleware from '../../middleware/auth'
-import { z } from 'zod'
 import { loginSchema } from './auth.schema'
 
 export const router = Router()
