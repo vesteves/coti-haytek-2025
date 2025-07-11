@@ -2,6 +2,7 @@ import { Router } from 'express'
 import type { Request, Response } from 'express'
 import userRepository from './user.repository'
 import { userStoreSchema, userUpdateSchema } from './user.schema'
+import { schemaValidateMiddleware } from '../../middleware/schemaValidate'
 export const router = Router()
 
 router.get('/', async (req: Request, res: Response) => {
@@ -34,18 +35,8 @@ router.get('/:id', async (req: Request, res: Response) => {
   })
 })
 
-router.post('/', async (req: Request, res: Response) => {
-  let validated
-  try {
-    validated = userStoreSchema.parse(req.body)
-  } catch (error: any) {
-    res.status(422).json({
-      error: error.errors
-    })
-    return
-  }
-
-  const response = await userRepository.store(validated)
+router.post('/', schemaValidateMiddleware(userStoreSchema), async (req: Request, res: Response) => {
+  const response = await userRepository.store(res.locals.validated)
 
   if (typeof response === 'object') {
     res.json({
@@ -63,36 +54,19 @@ router.post('/', async (req: Request, res: Response) => {
   })
 })
 
-router.put('/:id', async (req: Request, res: Response) => {
-  let validated
-  try {
-    validated = userUpdateSchema.parse(req.body)
-  } catch (error: any) {
-    res.status(422).json({
-      error: error.errors
+router.put('/:id', schemaValidateMiddleware(userUpdateSchema), async (req: Request, res: Response) => {
+  const response = await userRepository.update(req.params.id, res.locals.validated)
+
+  if (typeof response === 'object') {
+    res.json({
+      data: response.modifiedCount === 1 ? 'Usuário atualizado' : 'Usuário não encontrado'
     })
     return
   }
 
-  console.log('req.body', req.body)
-  console.log('validated', validated)
-
-  res.json({
-    msg: 'ok'
+  res.status(400).json({
+    error: response
   })
-
-  // const response = await userRepository.update(req.params.id, validated)
-
-  // if (typeof response === 'object') {
-  //   res.json({
-  //     data: response.modifiedCount === 1 ? 'Usuário atualizado' : 'Usuário não encontrado'
-  //   })
-  //   return
-  // }
-
-  // res.status(400).json({
-  //   error: response
-  // })
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {

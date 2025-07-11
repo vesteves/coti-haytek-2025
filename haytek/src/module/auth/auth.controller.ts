@@ -5,21 +5,13 @@ import jwt from 'jsonwebtoken'
 import userRepository from '../user/user.repository'
 import authMiddleware from '../../middleware/auth'
 import { loginSchema } from './auth.schema'
+import { schemaValidateMiddleware } from '../../middleware/schemaValidate'
 
 export const router = Router()
 
-router.post('/login', async (req: Request, res: Response) => {
-  try {
-    loginSchema.parse(req.body)
-  } catch (error: any) {
-    res.status(422).json({
-      error: error.errors
-    })
-    return
-  }
-
+router.post('/login', schemaValidateMiddleware(loginSchema), async (req: Request, res: Response) => {
   // TODO verificar se o e-mail existe na base
-  const user = await userRepository.getByEmail(req.body.email)
+  const user = await userRepository.getByEmail(res.locals.validated.email)
 
   if (!user) {
     res.status(404).json({
@@ -35,7 +27,7 @@ router.post('/login', async (req: Request, res: Response) => {
     return
   }
   // TODO verificar a senha
-  const verifyPassword = bcrypt.compareSync(req.body.password, user.password)
+  const verifyPassword = bcrypt.compareSync(res.locals.validated.password, user.password)
   if (!verifyPassword) {
     res.status(401).json({
       error: "Usuário e senha não conferem"
