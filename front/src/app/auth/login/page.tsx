@@ -31,8 +31,13 @@ const LoginPage = () => {
     })
     const responseJson = await response.json()
 
-    if (responseJson.data.msg) {
-      alert(responseJson.data.msg)
+    if (responseJson.data.error) {
+      if (typeof responseJson.data.error === 'object') {
+        alert(responseJson.data.error.map((item: any) => item.message).join(', '))
+        return
+      }
+      alert(responseJson.data.error)
+      return
     }
 
     if (responseJson.data) {
