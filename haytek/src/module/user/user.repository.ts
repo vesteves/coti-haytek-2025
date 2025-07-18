@@ -38,6 +38,10 @@ const store = async (param: UserStore): Promise<User | string> => {
 }
 
 const update = async (_id: string, param: UserUpdate): Promise<any | string> => {
+  if (param.password) {
+    param.password = bcrypt.hashSync(param.password, 10)
+  }
+
   try {
     return await userModel.updateOne({
       _id

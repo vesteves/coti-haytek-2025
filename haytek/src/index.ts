@@ -6,11 +6,14 @@ dotenv.config()
 import userController from './module/user/user.controller'
 import authController from './module/auth/auth.controller'
 import authMiddleware from './middleware/auth'
+import categoryController from './module/category/category.controller'
+
 const app = express()
 
 app.use(express.json())
 app.use('/user', authMiddleware, userController)
 app.use('/auth', authController)
+app.use('/category', categoryController)
 
 app.get('/health', (req: Request, res: Response) => {
   res.json({
