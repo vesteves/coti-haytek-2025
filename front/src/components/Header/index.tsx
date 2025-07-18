@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Logo from "../Logo"
+import AuthUser from '../AuthUser'
 
 interface Category {
   _id: string
@@ -34,7 +35,7 @@ export const Header = () => {
             {categories && categories.map(category => <li key={category._id}>{category.name}</li>)}
           </ul>
         </div>
-        <div>Logoff</div>
+        <div><AuthUser /></div>
       </nav>
     </header>
   )
