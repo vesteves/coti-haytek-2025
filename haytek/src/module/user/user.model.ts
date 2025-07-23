@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
+import type { User } from './user.d'
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<User, mongoose.Model<User>>({
   name: {
     type: String,
     required: true

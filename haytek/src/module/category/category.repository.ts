@@ -3,7 +3,7 @@ import { categoryModel } from './category.model'
 
 const getAll = (): Promise<Category[] | string> => {
   try {
-    return categoryModel.find().lean()
+    return categoryModel.find().populate('products').lean()
   } catch (error: any) {
     return error.message
   }

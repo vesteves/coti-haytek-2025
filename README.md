@@ -13,7 +13,7 @@
 - Módulo de estoque
 -- campos: produtoId (FK), quantidade (inteiro), armazem (texto),
 - Módulo de cliente
--- campos: usuarioId (fk), nome (texto), cnpj (texto), email (texto), endereco (texto), cadeia (texto)
+-- campos: usuarioId (fk), nome (texto), cnpj (texto), endereco (texto), cadeia (texto)
 - Módulo de pedido de compra
 -- campos: clienteId (FK), items ([
     lista de produtoId (fk),

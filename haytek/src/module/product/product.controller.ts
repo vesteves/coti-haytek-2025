@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express'
-import categoryRepository from './category.repository'
+import productRepository from './product.repository'
 
 const getAll = async (req: Request, res: Response) => {
-  const response = await categoryRepository.getAll()
+  const response = await productRepository.getAll()
 
   if (typeof response === 'object') {
     res.json({
@@ -17,11 +17,11 @@ const getAll = async (req: Request, res: Response) => {
 }
 
 const getById = async (req: Request, res: Response) => {
-  const response = await categoryRepository.getById(req.params.id)
+  const response = await productRepository.getById(req.params.id)
 
   if (typeof response === 'object') {
     res.json({
-      data: response !== null ? response : 'Categoria não encontrada'
+      data: response !== null ? response : 'Produto não encontrado'
     })
     return
   }
@@ -32,7 +32,7 @@ const getById = async (req: Request, res: Response) => {
 }
 
 const store = async (req: Request, res: Response) => {
-  const response = await categoryRepository.store(res.locals.validated)
+  const response = await productRepository.store(res.locals.validated)
 
   if (typeof response === 'object') {
     res.json({
@@ -51,11 +51,11 @@ const store = async (req: Request, res: Response) => {
 }
 
 const update = async (req: Request, res: Response) => {
-  const response = await categoryRepository.update(req.params.id, res.locals.validated)
+  const response = await productRepository.update(req.params.id, res.locals.validated)
 
   if (typeof response === 'object') {
     res.json({
-      data: response.modifiedCount === 1 ? 'Categoria atualizada' : 'Categoria não encontrada'
+      data: response.modifiedCount === 1 ? 'Produto atualizado' : 'Produto não encontrado'
     })
     return
   }
@@ -66,11 +66,11 @@ const update = async (req: Request, res: Response) => {
 }
 
 const destroy = async (req: Request, res: Response) => {
-  const response = await categoryRepository.destroy(req.params.id)
+  const response = await productRepository.destroy(req.params.id)
 
   if (typeof response === 'object') {
     res.json({
-      data: response.deletedCount === 1 ? 'Categoria removida' : 'Categoria não encontrada'
+      data: response.deletedCount === 1 ? 'Produto removido' : 'Produto não encontrado'
     })
     return
   }
